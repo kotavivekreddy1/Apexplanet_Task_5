@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - Kota Vivek Reddy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>🛍️ My Shopping Cart</h1>
+    <nav>
+      <a href="#products">Products</a>
+      <a href="#receipt">Receipt</a>
+    </nav>
+  </header>
+
+  <!-- Products Section -->
+  <section id="products" class="container">
+    <h2>Products</h2>
+    <div class="grid">
+      <div class="card"><img src="shoe.jpg" alt="Shoes"><h3>Shoes</h3><p>₹1200</p><button onclick="addToCart('Shoes',1200)">Add</button></div>
+      <div class="card"><img src="watch.jpeg" alt="Watch"><h3>Watch</h3><p>₹2500</p><button onclick="addToCart('Watch',2500)">Add</button></div>
+      <div class="card"><img src="bag.png" alt="Backpack"><h3>Backpack</h3><p>₹1800</p><button onclick="addToCart('Backpack',1800)">Add</button></div>
+      <div class="card"><img src="headphones.jpeg" alt="Headphones"><h3>Headphones</h3><p>₹1500</p><button onclick="addToCart('Headphones',1500)">Add</button></div>
+      <div class="card"><img src="laptop.jpeg" alt="Laptop"><h3>Laptop</h3><p>₹55000</p><button onclick="addToCart('Laptop',55000)">Add</button></div>
+      <div class="card"><img src="phone.jpeg" alt="Smartphone"><h3>Smartphone</h3><p>₹35000</p><button onclick="addToCart('Smartphone',35000)">Add</button></div>
+      <div class="card"><img src="sunglasses.jpeg" alt="Sunglasses"><h3>Sunglasses</h3><p>₹900</p><button onclick="addToCart('Sunglasses',900)">Add</button></div>
+      <div class="card"><img src="tshirt.jpeg" alt="T-shirt"><h3>T-shirt</h3><p>₹700</p><button onclick="addToCart('T-shirt',700)">Add</button></div>
+      <div class="card"><img src="jeans.jpeg" alt="Jeans"><h3>Jeans</h3><p>₹1600</p><button onclick="addToCart('Jeans',1600)">Add</button></div>
+      <div class="card"><img src="perfume.jpeg" alt="Perfume"><h3>Perfume</h3><p>₹1200</p><button onclick="addToCart('Perfume',1200)">Add</button></div>
+    </div>
+  </section>
+
+  <!-- Receipt Section -->
+  <section id="receipt" class="container">
+    <h2>🧾 Shopping Receipt</h2>
+    <div class="receipt">
+      <h3>Vivek Store</h3>
+      <p>Date: <span id="date"></span></p>
+      <hr>
+      <table>
+        <thead>
+          <tr><th>Product</th><th>Price</th><th>Action</th></tr>
+        </thead>
+        <tbody id="cart-items"></tbody>
+        <tfoot>
+          <tr><td colspan="2"><strong>Total</strong></td><td id="total">₹0</td></tr>
+        </tfoot>
+      </table>
+      <div class="receipt-footer">✨ Thank you for shopping with us! ✨<br>~ Designed by Kota Vivek Reddy</div>
+      <button onclick="printReceipt()">🖨️ Print Receipt</button>
+    </div>
+  </section>
+
+  <script>
+    let total = 0;
+
+    window.onload = function() {
+      document.getElementById("date").innerText = new Date().toLocaleDateString();
+    };
+
+    function addToCart(product, price) {
+      const table = document.getElementById("cart-items");
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${product}</td>
+        <td>₹${price}</td>
+        <td><button class="remove-btn" onclick="removeItem(this, ${price})">Remove</button></td>
+      `;
+      table.appendChild(row);
+      total += price;
+      updateTotal();
+    }
+
+    function removeItem(button, price) {
+      const row = button.parentElement.parentElement;
+      row.remove();
+      total -= price;
+      updateTotal();
+    }
+
+    function updateTotal() {
+      document.getElementById("total").innerText = "₹" + total;
+    }
+
+    function printReceipt() {
+      const receiptContent = document.querySelector(".receipt").innerHTML;
+      const printWindow = window.open("", "", "width=400,height=600");
+      printWindow.document.write("<html><head><title>Receipt</title></head><body>");
+      printWindow.document.write(receiptContent);
+      printWindow.document.write("</body></html>");
+      printWindow.document.close();
+      printWindow.print();
+    }
+  </script>
+</body>
+</html>
